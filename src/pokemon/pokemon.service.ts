@@ -12,7 +12,7 @@ export class PokemonService {
     ) { }
 
     async findAll(page: number): Promise<Pokemon[]> {
-        const pokemonsPerPage = 5
+        const pokemonsPerPage = 6
         const pokemons = await this.pokemonModel
             .find()
             .skip(page * pokemonsPerPage)

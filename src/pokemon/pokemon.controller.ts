@@ -1,13 +1,15 @@
-import { Controller, Get, Post, Body, Patch, Param, Delete } from '@nestjs/common';
+import { Controller, Get, Post, Body, Patch, Param, Delete, UseGuards } from '@nestjs/common';
 import { PokemonService } from './pokemon.service';
 import { Pokemon } from 'src/schema/pokemon';
 import { CreatePokemonDTO } from './dto/create-pokemon-dto';
+import { AuthGuard } from '@nestjs/passport';
 
 @Controller('pokemon')
 export class PokemonController {
     constructor(private pokemonService: PokemonService) { }
 
     @Get('/getAll/:page')
+    @UseGuards(AuthGuard('jwt'))
     async getAllPokemons(
         @Param('page')
         page: number
@@ -16,6 +18,7 @@ export class PokemonController {
     }
 
     @Get(':keyword')
+    @UseGuards(AuthGuard('jwt'))
     async getOnePokemon(
         @Param('keyword')
         keyword: string
@@ -24,6 +27,7 @@ export class PokemonController {
     }
 
     @Post()
+    @UseGuards(AuthGuard('jwt'))
     async createPokemon(
         @Body()
         pokemon: CreatePokemonDTO
@@ -32,6 +36,7 @@ export class PokemonController {
     }
 
     @Patch('/update/:id')
+    @UseGuards(AuthGuard('jwt'))
     update(
         @Param('id')
         id: string,
@@ -42,6 +47,7 @@ export class PokemonController {
     }
 
     @Delete(':id')
+    @UseGuards(AuthGuard('jwt'))
     async deleteOnePokemon(
         @Param('id')
         id: string
